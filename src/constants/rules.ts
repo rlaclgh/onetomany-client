@@ -22,4 +22,10 @@ export const RULES = {
       message: "올바른 형태의 비밀번호를 입력해 주세요.",
     },
   },
+  REQUIRED: {
+    required: {
+      value: true,
+      message: "필수값을 입력해 주세요.",
+    },
+  },
 } as const;

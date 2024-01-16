@@ -1,15 +1,12 @@
 import { Control, Controller, RegisterOptions } from "react-hook-form";
 import InputLabel from "./input-label";
 
-interface TextInputProps {
+interface TextareaInputProps {
   // input 상단에 보일 텍스트
   label: string;
 
   // react-hook-form 으로 관리하는 key 값
   name: string;
-
-  // input 의 타입
-  type: "password" | "text" | "number";
 
   // react-hook-form 의 controller
   control: Control<any>;
@@ -26,11 +23,12 @@ interface TextInputProps {
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
 }
-const TextInput = (props: TextInputProps) => {
-  const { label, name, type, control, disabled, rules, placeholder } = props;
+
+const TextareaInput = (props: TextareaInputProps) => {
+  const { label, name, control, disabled, rules, placeholder } = props;
 
   return (
-    <div>
+    <>
       <Controller
         name={name}
         control={control}
@@ -38,19 +36,20 @@ const TextInput = (props: TextInputProps) => {
         render={({ field, fieldState }) => {
           const hasError = !!fieldState?.error;
           const errorMessage = fieldState?.error?.message;
-
           return (
             <>
               <InputLabel label={label} name={name} />
 
               <div className="h-1" />
-              <input
-                className={`w-full h-12 px-3 border-solid border rounded outline-none text-sm  
-                ${hasError ? "border-red-600" : "border-black"}`}
+
+              <textarea
+                className={`w-full h-28 p-3 border-solid border rounded outline-none text-sm
+                ${hasError ? "border-red-600" : "border-black"}
+                resize-none
+                `}
                 id={name}
-                type={type}
-                disabled={disabled}
                 placeholder={placeholder}
+                disabled={disabled}
                 {...field}
               />
 
@@ -67,8 +66,8 @@ const TextInput = (props: TextInputProps) => {
           );
         }}
       />
-    </div>
+    </>
   );
 };
 
-export default TextInput;
+export default TextareaInput;

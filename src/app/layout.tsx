@@ -18,7 +18,7 @@ export default function RootLayout({
           <div className="hidden lg:block lg:min-h-screen lg:w-[calc(80%-450px)] "></div>
 
           {/* center */}
-          <div className="max-w-[450px] shadow min-h-screen flex-1 lg:m-auto">
+          <div className="overflow-x-hidden max-w-[450px] shadow min-h-screen flex-1 lg:m-auto ">
             {children}
           </div>
 
