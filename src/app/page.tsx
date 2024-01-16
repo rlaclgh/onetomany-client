@@ -1,14 +1,46 @@
+import ChatRoom from "@/components/chat-room";
+import HeaderCenter from "@/components/common/header-center";
+import Header from "@/components/header";
+
+const MOCK = [
+  {
+    chatRoomId: 1,
+    name: "제목1",
+    description: "설명1",
+    imageUrl:
+      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+  },
+  {
+    chatRoomId: 2,
+    name: "제목2",
+    description: "설명2",
+    imageUrl:
+      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+  },
+  {
+    chatRoomId: 3,
+    name: "제목3",
+    description: "설명3",
+    imageUrl:
+      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+  },
+  {
+    chatRoomId: 4,
+    name: "제목4",
+    description: "설명4",
+    imageUrl:
+      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+  },
+] as const;
+
 export default function Home() {
   return (
-    <div className="w-[100%] h-[100%] m-0 flex justify-center align-middle">
-      {/* left */}
-      <div className="hidden bg-red-100 lg:block lg:min-h-screen lg:w-[calc(80%-450px)] "></div>
+    <>
+      <Header renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>} />
 
-      {/* center */}
-      <div className="max-w-[450px] bg-blue min-h-screen flex-1 lg:m-auto"></div>
-
-      {/* right */}
-      <div className="hidden bg-red-100 lg:block min-h-screen w-1/5"></div>
-    </div>
+      {MOCK.map((mock) => {
+        return <ChatRoom key={mock.chatRoomId} {...mock} />;
+      })}
+    </>
   );
 }

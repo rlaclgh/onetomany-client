@@ -1,5 +1,6 @@
 import BottomNavigation from "@/components/bottom-navigation";
 import "./globals.css";
+import ServiceDescription from "@/components/service-description";
 
 export const metadata = {
   title: "Next.js",
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body>
         <div className="w-[100%] h-[100%] m-0 flex justify-center align-middle">
           {/* left */}
-          <div className="hidden lg:block lg:min-h-screen lg:w-[calc(80%-450px)] "></div>
+          <div className="hidden lg:block lg:min-h-screen lg:w-[calc(80%-450px)] ">
+            <ServiceDescription />
+          </div>
 
           {/* center */}
           <div className="overflow-x-hidden relative max-w-[450px] shadow min-h-screen flex-1 lg:m-auto ">
