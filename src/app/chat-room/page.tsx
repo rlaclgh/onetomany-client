@@ -39,7 +39,7 @@ const ChatRooms = () => {
       <Header renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>} />
 
       {MOCK.map((mock) => {
-        return <ChatRoom {...mock} />;
+        return <ChatRoom key={mock.chatRoomId} {...mock} />;
       })}
     </>
   );
