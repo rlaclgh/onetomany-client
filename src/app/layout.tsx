@@ -12,7 +12,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="w-[100%] h-[100%] m-0 flex justify-center align-middle">
+          {/* left */}
+          <div className="hidden lg:block lg:min-h-screen lg:w-[calc(80%-450px)] "></div>
+
+          {/* center */}
+          <div className="max-w-[450px] shadow min-h-screen flex-1 lg:m-auto">
+            {children}
+          </div>
+
+          {/* right */}
+          <div className="hidden lg:block min-h-screen w-1/5"></div>
+        </div>
+      </body>
     </html>
   );
 }
