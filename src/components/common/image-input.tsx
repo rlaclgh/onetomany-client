@@ -37,7 +37,7 @@ const ImageInput = (props: ImageInputProps) => {
 
               <div className="h-1" />
 
-              <div className="relative w-48 h-48 rounded-2xl border border-solid border-black shadow flex">
+              <div className="relative w-48 h-48 rounded-2xl border border-solid border-gray-light shadow flex">
                 <label
                   htmlFor={name}
                   className="relative flex w-full cursor-pointer"

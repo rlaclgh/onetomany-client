@@ -44,7 +44,7 @@ const TextareaInput = (props: TextareaInputProps) => {
 
               <textarea
                 className={`w-full h-28 p-3 border-solid border rounded outline-none text-sm
-                ${hasError ? "border-red-600" : "border-black"}
+                ${hasError ? "border-red-600" : "border-gray-light"}
                 resize-none
                 `}
                 id={name}

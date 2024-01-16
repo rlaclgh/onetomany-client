@@ -46,7 +46,7 @@ const TextInput = (props: TextInputProps) => {
               <div className="h-1" />
               <input
                 className={`w-full h-12 px-3 border-solid border rounded outline-none text-sm  
-                ${hasError ? "border-red-600" : "border-black"}`}
+                ${hasError ? "border-red-600" : "border-gray-light"}`}
                 id={name}
                 type={type}
                 disabled={disabled}
