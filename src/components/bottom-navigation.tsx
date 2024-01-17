@@ -3,8 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const NO_BOTTOM_PATH = new Set([
+  // 로그인
+  "/sign-in",
+  // 회원가입
+  "/sign-up",
+]);
+
 const BottomNavigation = () => {
   const pathname = usePathname();
+
+  if (NO_BOTTOM_PATH.has(pathname)) return <></>;
+
   return (
     <div className="h-16 absolute bottom-0 left-0 right-0 flex border-t border-solid border-gray-light">
       <Link

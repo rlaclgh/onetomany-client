@@ -44,3 +44,43 @@ export const useSignIn = (
     ...options,
   });
 };
+
+/**
+ * 회원가입
+ */
+
+interface SignUpProps {
+  email: string;
+  password: string;
+  rePassword: string;
+}
+
+interface SignUpResponse {}
+
+const signUp: MutationFunction<AxiosResponse<SignUpResponse>, SignUpProps> = (
+  props
+) => {
+  const { email, password, rePassword } = props;
+  return Axios({
+    method: "post",
+    url: "/auth/sign-up",
+    data: {
+      email,
+      password,
+      rePassword,
+    },
+  });
+};
+
+export const useSignUp = (
+  options?: UseMutationOptions<
+    AxiosResponse<SignUpResponse>,
+    Error,
+    SignUpProps
+  >
+) => {
+  return useMutation({
+    mutationFn: signUp,
+    ...options,
+  });
+};

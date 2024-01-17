@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import TextInput from "./common/text-input";
 import { RULES } from "@/constants/rules";
 import TextButton from "./common/text-button";
+import { useSignUp } from "@/query/auth";
+import { useRouter } from "next/navigation";
 
 interface FormProps {
   email: string;
@@ -12,6 +14,15 @@ interface FormProps {
 }
 
 const SignUpForm = () => {
+  const router = useRouter();
+  const { mutate: signUp } = useSignUp({
+    onSuccess: () => {
+      router.replace("/");
+    },
+    onError: () => {
+      alert("에러 발생!");
+    },
+  });
   const { control, getValues, formState } = useForm<FormProps>({
     defaultValues: {
       email: "",
@@ -62,7 +73,13 @@ const SignUpForm = () => {
 
       <TextButton
         text="회원가입"
-        onClick={() => {}}
+        onClick={() => {
+          signUp({
+            email: getValues("email"),
+            password: getValues("password"),
+            rePassword: getValues("rePassword"),
+          });
+        }}
         disabled={!formState.isValid}
       />
     </div>
