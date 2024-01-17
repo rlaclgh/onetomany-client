@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import TextInput from "./common/text-input";
 import { RULES } from "@/constants/rules";
 import TextButton from "./common/text-button";
+import { useSignIn } from "@/query/auth";
+import { useRouter } from "next/navigation";
 
 interface FormProps {
   email: string;
@@ -11,7 +13,18 @@ interface FormProps {
 }
 
 const SignInForm = () => {
-  const { control, formState } = useForm<FormProps>({
+  const router = useRouter();
+  const { mutate: signIn } = useSignIn({
+    onSuccess: ({ data }) => {
+      localStorage.setItem("accessToken", data.token);
+      router.replace("/");
+    },
+    onError: () => {
+      alert("에러 발생!");
+    },
+  });
+
+  const { control, formState, getValues } = useForm<FormProps>({
     defaultValues: {
       email: "",
       password: "",
@@ -45,7 +58,12 @@ const SignInForm = () => {
 
       <TextButton
         text="로그인"
-        onClick={() => {}}
+        onClick={() => {
+          signIn({
+            email: getValues("email"),
+            password: getValues("password"),
+          });
+        }}
         disabled={!formState.isValid}
       />
     </div>
