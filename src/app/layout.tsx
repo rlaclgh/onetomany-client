@@ -3,6 +3,7 @@ import BottomNavigation from "@/components/bottom-navigation";
 import "./globals.css";
 import ServiceDescription from "@/components/service-description";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import usePreviousPath from "@/hooks/use-previous-path";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +23,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  usePreviousPath();
+
   return (
     <html lang="en">
       <body>

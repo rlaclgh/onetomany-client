@@ -17,7 +17,7 @@ const SignUpForm = () => {
   const router = useRouter();
   const { mutate: signUp } = useSignUp({
     onSuccess: () => {
-      router.replace("/");
+      router.replace("/sign-in");
     },
     onError: () => {
       alert("에러 발생!");

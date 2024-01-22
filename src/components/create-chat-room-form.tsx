@@ -4,6 +4,9 @@ import TextareaInput from "./common/textarea-input";
 import { RULES } from "@/constants/rules";
 import ImageInput from "./common/image-input";
 import TextButton from "./common/text-button";
+import { useCreateChatRoom } from "@/query/chat-room";
+import { useRouter } from "next/navigation";
+import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
 
 interface FormProps {
   name: string;
@@ -14,7 +17,22 @@ interface FormProps {
 }
 
 const CreateChatRoomForm = () => {
-  const { control, formState } = useForm<FormProps>({
+  const router = useRouter();
+  const { redirect } = useRedirectToSignIn();
+  const { mutate: createChatRoom } = useCreateChatRoom({
+    onSuccess: () => {
+      alert("채팅방을 생성했습니다.");
+      router.replace("/");
+    },
+    onError: (data) => {
+      const errorCode = data?.response?.data?.code;
+
+      if (errorCode === "UNAUTHORIZED") {
+        redirect();
+      }
+    },
+  });
+  const { control, formState, getValues } = useForm<FormProps>({
     defaultValues: {
       name: "",
       description: "",
@@ -45,18 +63,33 @@ const CreateChatRoomForm = () => {
         rules={RULES.REQUIRED}
       />
 
-      <ImageInput
-        label="이미지"
-        name="imageUrl"
-        control={control}
-        disabled={false}
-      />
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          alert("준비중인 기능입니다.");
+        }}
+      >
+        <ImageInput
+          label="이미지"
+          name="imageUrl"
+          control={control}
+          disabled={false}
+        />
+      </div>
 
       <div className="h-10" />
 
       <TextButton
         text="채팅방 생성"
-        onClick={() => {}}
+        onClick={() => {
+          createChatRoom({
+            name: getValues("name"),
+            description: getValues("description"),
+            imageUrl:
+              "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+          });
+        }}
         disabled={!formState.isValid}
       />
     </>

@@ -1,46 +1,49 @@
+"use client";
+
 import ChatRoom from "@/components/chat-room";
 import HeaderCenter from "@/components/common/header-center";
+import TextButton from "@/components/common/text-button";
 import Header from "@/components/header";
-
-const MOCK = [
-  {
-    chatRoomId: 1,
-    name: "제목1",
-    description: "설명1",
-    imageUrl:
-      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
-  },
-  {
-    chatRoomId: 2,
-    name: "제목2",
-    description: "설명2",
-    imageUrl:
-      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
-  },
-  {
-    chatRoomId: 3,
-    name: "제목3",
-    description: "설명3",
-    imageUrl:
-      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
-  },
-  {
-    chatRoomId: 4,
-    name: "제목4",
-    description: "설명4",
-    imageUrl:
-      "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
-  },
-] as const;
+import { useGetChatRooms } from "@/query/chat-room";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+  const { data: chatRooms, isLoading } = useGetChatRooms();
+
+  if (isLoading) return <></>;
+
   return (
     <>
       <Header renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>} />
 
-      {MOCK.map((mock) => {
-        return <ChatRoom key={mock.chatRoomId} {...mock} />;
+      <div className="h-4" />
+
+      <TextButton
+        text="채팅방 생성"
+        onClick={() => {
+          router.push("/chat-room/new");
+          // router.push("/sign-up");
+        }}
+        disabled={false}
+      />
+      <div className="h-4" />
+
+      {chatRooms.map((chatRoom) => {
+        return (
+          <ChatRoom
+            key={chatRoom?.chatRoom?.id}
+            chatRoomId={chatRoom?.chatRoom?.id}
+            name={chatRoom?.chatRoom?.name}
+            description={chatRoom?.chatRoom?.description}
+            imageUrl={chatRoom?.chatRoom?.imageUrl}
+          />
+        );
       })}
+
+      {/* {MOCK.map((mock) => {
+        return <ChatRoom key={mock.chatRoomId} {...mock} />;
+      })} */}
     </>
   );
 }

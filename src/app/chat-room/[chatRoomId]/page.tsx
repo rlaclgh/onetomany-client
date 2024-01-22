@@ -4,7 +4,10 @@ import Divider from "@/components/common/divider";
 import HeaderCenter from "@/components/common/header-center";
 import TextButton from "@/components/common/text-button";
 import Header from "@/components/header";
+import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
+import { useGetChatRoom, useSubscribeChatRoom } from "@/query/chat-room";
 import Image from "next/image";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 const MOCK = {
   chatRoomId: 1,
@@ -15,7 +18,26 @@ const MOCK = {
 };
 
 const ChatRoomPage = () => {
-  const { imageUrl, name, description } = MOCK;
+  const router = useRouter();
+
+  const params = useParams();
+  const { chatRoomId, imageUrl, name, description } = MOCK;
+
+  const { redirect } = useRedirectToSignIn();
+
+  const { data: chatRoom } = useGetChatRoom({ chatRoomId: params.chatRoomId });
+  console.log("🚀 ~ ChatRoomPage ~ chatRoom:", chatRoom);
+
+  const { mutate: subscribeChatRoom } = useSubscribeChatRoom({
+    onError: (data) => {
+      const errorCode = data?.response?.data?.code;
+
+      if (errorCode === "UNAUTHORIZED") {
+        redirect();
+      }
+    },
+  });
+
   return (
     <>
       <Header renderCenter={() => <HeaderCenter>채팅방</HeaderCenter>} />
@@ -39,7 +61,13 @@ const ChatRoomPage = () => {
 
         <div className="h-10" />
 
-        <TextButton text="채팅방 구독" onClick={() => {}} disabled={false} />
+        <TextButton
+          text="채팅방 구독"
+          onClick={() => {
+            subscribeChatRoom({ chatRoomId });
+          }}
+          disabled={false}
+        />
       </div>
     </>
   );

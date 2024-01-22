@@ -1,8 +1,15 @@
 import axios from "axios";
 import queryString from "query-string";
 
+export interface CustomError {
+  code: string;
+  message: string;
+  status: number;
+}
+
 const Axios = axios.create({
-  baseURL: "http://127.0.0.1:8080/",
+  // baseURL: "http://127.0.0.1:8080/",
+  baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 
   headers: {
     Accept: "application/json, text/plain, */*",

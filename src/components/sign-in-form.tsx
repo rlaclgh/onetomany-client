@@ -17,7 +17,12 @@ const SignInForm = () => {
   const { mutate: signIn } = useSignIn({
     onSuccess: ({ data }) => {
       localStorage.setItem("accessToken", data.token);
-      router.replace("/");
+      const goto = localStorage.getItem("goto");
+      if (goto) {
+        router.replace(goto);
+      } else {
+        router.replace("/");
+      }
     },
     onError: () => {
       alert("에러 발생!");
@@ -65,6 +70,15 @@ const SignInForm = () => {
           });
         }}
         disabled={!formState.isValid}
+      />
+
+      <div className="h-4" />
+      <TextButton
+        text="회원가입"
+        onClick={() => {
+          router.push("/sign-up");
+        }}
+        disabled={false}
       />
     </div>
   );

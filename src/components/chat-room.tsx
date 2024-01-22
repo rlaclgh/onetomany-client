@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ChatRoomProps {
   chatRoomId: number;
@@ -8,8 +10,16 @@ interface ChatRoomProps {
 }
 const ChatRoom = (props: ChatRoomProps) => {
   const { chatRoomId, name, description, imageUrl } = props;
+
+  const router = useRouter();
   return (
-    <div className="flex shadow p-1 h-16 px-3">
+    <div
+      className="flex shadow p-1 h-16 px-3"
+      key={chatRoomId}
+      onClick={() => {
+        router.push(`/chat-room/${chatRoomId}`);
+      }}
+    >
       <Image
         src={imageUrl}
         alt="채팅방 이미지"
