@@ -26,7 +26,7 @@ const subscribeChatRoom: MutationFunction<
   const { chatRoomId } = props;
   return Axios({
     method: "post",
-    url: `/chat-room/${chatRoomId}/subscribe`,
+    url: `/chat_room/${chatRoomId}/subscribe`,
   });
 };
 

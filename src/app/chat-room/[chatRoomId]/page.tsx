@@ -7,26 +7,18 @@ import Header from "@/components/header";
 import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
 import { useGetChatRoom, useSubscribeChatRoom } from "@/query/chat-room";
 import Image from "next/image";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-
-const MOCK = {
-  chatRoomId: 1,
-  name: "제목1",
-  description: "설명 입니다.",
-  imageUrl:
-    "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
-};
+import { useParams, useRouter } from "next/navigation";
 
 const ChatRoomPage = () => {
   const router = useRouter();
 
   const params = useParams();
-  const { chatRoomId, imageUrl, name, description } = MOCK;
 
   const { redirect } = useRedirectToSignIn();
 
-  const { data: chatRoom } = useGetChatRoom({ chatRoomId: params.chatRoomId });
-  console.log("🚀 ~ ChatRoomPage ~ chatRoom:", chatRoom);
+  const { data: chatRoom, isLoading } = useGetChatRoom({
+    chatRoomId: params.chatRoomId,
+  });
 
   const { mutate: subscribeChatRoom } = useSubscribeChatRoom({
     onError: (data) => {
@@ -38,25 +30,28 @@ const ChatRoomPage = () => {
     },
   });
 
+  if (isLoading) return <></>;
+
   return (
     <>
       <Header renderCenter={() => <HeaderCenter>채팅방</HeaderCenter>} />
 
       <div className="w-full aspect-square relative">
         <Image
-          src={imageUrl}
+          src={chatRoom?.imageUrl}
           alt="채팅방 이미지"
           fill={true}
           style={{ objectFit: "cover" }}
+          priority={true}
         />
       </div>
 
       <div className="px-4">
-        <div className="text-base py-2">{name}</div>
+        <div className="text-base py-2">{chatRoom?.name}</div>
 
         <Divider />
 
-        <div className="text-sm py-2">{description}</div>
+        <div className="text-sm py-2">{chatRoom?.description}</div>
         <Divider />
 
         <div className="h-10" />
@@ -64,7 +59,7 @@ const ChatRoomPage = () => {
         <TextButton
           text="채팅방 구독"
           onClick={() => {
-            subscribeChatRoom({ chatRoomId });
+            subscribeChatRoom({ chatRoomId: chatRoom?.id });
           }}
           disabled={false}
         />
