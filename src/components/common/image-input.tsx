@@ -2,6 +2,11 @@ import { Control, Controller, RegisterOptions } from "react-hook-form";
 import InputLabel from "./input-label";
 import Image from "next/image";
 
+import Xmark from "@/public/x-mark.svg";
+import Spinner from "./spinner";
+import { useCreatePreSignedUrl } from "@/query/image";
+import axios from "axios";
+
 interface ImageInputProps {
   // input 상단에 보일 텍스트
   label: string;
@@ -24,42 +29,33 @@ interface ImageInputProps {
 const ImageInput = (props: ImageInputProps) => {
   const { label, name, control, disabled, rules } = props;
 
+  const { mutateAsync: createPreSignedUrl } = useCreatePreSignedUrl();
+
   return (
-    <>
-      <Controller
-        name={name}
-        control={control}
-        rules={rules}
-        render={({ field: { onChange, value }, fieldState: {} }) => {
-          return (
-            <>
-              <InputLabel label={label} name={""} />
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({ field: { onChange, value }, fieldState: {} }) => {
+        return (
+          <>
+            <InputLabel label={label} name={""} />
 
-              <div className="h-1" />
+            <div className="h-1" />
 
-              <div className="relative w-48 h-48 rounded-2xl border border-solid border-gray-light shadow flex">
+            <div className="flex">
+              <div className="relative w-44 h-44 rounded-2xl border border-solid border-gray-light shadow flex">
                 <label
                   htmlFor={name}
                   className="relative flex w-full cursor-pointer"
                 >
-                  {!value && (
-                    <Image
-                      src={"/camera.svg"}
-                      alt="카메라"
-                      width={40}
-                      height={40}
-                      className="m-auto"
-                    />
-                  )}
-
-                  {value && (
-                    <Image
-                      src={value}
-                      alt="채팅방 이미지"
-                      width={192}
-                      height={192}
-                    />
-                  )}
+                  <Image
+                    src={"/camera.svg"}
+                    alt="카메라"
+                    width={40}
+                    height={40}
+                    className="m-auto"
+                  />
                 </label>
 
                 <input
@@ -67,13 +63,78 @@ const ImageInput = (props: ImageInputProps) => {
                   type="file"
                   accept="image/*"
                   id={name}
+                  onChange={async (e) => {
+                    const file: File = e.target.files[0];
+
+                    const objectURL = URL.createObjectURL(file);
+                    onChange(objectURL);
+
+                    const result = await createPreSignedUrl({
+                      contentType: file.type,
+                    });
+
+                    try {
+                      await axios.put(result.data.url, file, {
+                        headers: {
+                          "Content-Type": file.type,
+                        },
+                        // onUploadProgress: (progressEvent) => {
+                        //   const percentCompleted = Math.round(
+                        //     (progressEvent.loaded * 100) / progressEvent.total
+                        //   );
+                        // },
+                      });
+
+                      onChange(result?.data?.url.split("?X")[0]);
+                    } catch (error) {
+                      console.log("🚀 ~ onChange={ ~ error:", error);
+                    }
+                  }}
                 />
               </div>
-            </>
-          );
-        }}
-      />
-    </>
+
+              <div className="w-4" />
+
+              {value && (
+                <div className="w-44 h-44 rounded-2xl flex relative">
+                  <Image
+                    src={value}
+                    alt="채팅방 이미지"
+                    width={192}
+                    height={192}
+                  />
+
+                  {/* <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+                    <Spinner />
+                  </div> */}
+
+                  <Xmark
+                    color="white"
+                    width={16}
+                    height={16}
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-400"
+                    onClick={() => {
+                      onChange("");
+                    }}
+                  />
+
+                  {/* <Image
+                    src="/x-mark.svg"
+                    alt="삭제"
+                    width={16}
+                    height={16}
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600"
+                    onClick={() => {
+                      onChange("");
+                    }}
+                  /> */}
+                </div>
+              )}
+            </div>
+          </>
+        );
+      }}
+    />
   );
 };
 

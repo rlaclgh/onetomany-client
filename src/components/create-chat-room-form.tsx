@@ -7,6 +7,7 @@ import TextButton from "./common/text-button";
 import { useCreateChatRoom } from "@/query/chat-room";
 import { useRouter } from "next/navigation";
 import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
+import { useCreatePreSignedUrl } from "@/query/image";
 
 interface FormProps {
   name: string;
@@ -19,6 +20,7 @@ interface FormProps {
 const CreateChatRoomForm = () => {
   const router = useRouter();
   const { redirect } = useRedirectToSignIn();
+
   const { mutate: createChatRoom } = useCreateChatRoom({
     onSuccess: () => {
       alert("채팅방을 생성했습니다.");
@@ -63,20 +65,12 @@ const CreateChatRoomForm = () => {
         rules={RULES.REQUIRED}
       />
 
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          alert("준비중인 기능입니다.");
-        }}
-      >
-        <ImageInput
-          label="이미지"
-          name="imageUrl"
-          control={control}
-          disabled={false}
-        />
-      </div>
+      <ImageInput
+        label="이미지"
+        name="imageUrl"
+        control={control}
+        disabled={false}
+      />
 
       <div className="h-10" />
 
@@ -86,8 +80,7 @@ const CreateChatRoomForm = () => {
           createChatRoom({
             name: getValues("name"),
             description: getValues("description"),
-            imageUrl:
-              "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+            imageUrl: getValues("imageUrl"),
           });
         }}
         disabled={!formState.isValid}

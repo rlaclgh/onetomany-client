@@ -7,6 +7,7 @@ import TextButton from "./common/text-button";
 import { useSignUp } from "@/query/auth";
 import { useRouter } from "next/navigation";
 
+import { toast } from "react-toastify";
 interface FormProps {
   email: string;
   password: string;
@@ -17,6 +18,8 @@ const SignUpForm = () => {
   const router = useRouter();
   const { mutate: signUp } = useSignUp({
     onSuccess: () => {
+      toast("Wow so easy!");
+
       router.replace("/sign-in");
     },
     onError: () => {
@@ -36,6 +39,15 @@ const SignUpForm = () => {
 
   return (
     <div>
+      <div
+        onClick={() => {
+          toast.success("Wow so easy!", {
+            autoClose: 1000,
+          });
+        }}
+      >
+        Toast
+      </div>
       <TextInput
         label="이메일"
         name="email"
