@@ -4,6 +4,7 @@ import ChatRoom from "@/components/chat-room";
 import HeaderCenter from "@/components/common/header-center";
 import TextButton from "@/components/common/text-button";
 import Header from "@/components/header";
+import LogInOutHeader from "@/components/log-in-out-header";
 import { useGetChatRooms } from "@/query/chat-room";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +16,10 @@ export default function Home() {
 
   return (
     <>
-      <Header renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>} />
+      <Header
+        renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>}
+        renderRight={() => <LogInOutHeader />}
+      />
 
       <div className="h-4" />
 

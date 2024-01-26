@@ -5,7 +5,6 @@ const useRedirectToSignIn = () => {
   const pathname = usePathname();
 
   const redirect = () => {
-    alert("로그인 후 이용해주세요.");
     localStorage.setItem("goto", pathname);
     return router.push("/sign-in");
   };

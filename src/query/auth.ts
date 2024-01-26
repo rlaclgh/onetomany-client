@@ -2,6 +2,7 @@ import {
   MutationFunction,
   UseMutationOptions,
   useMutation,
+  useQuery,
 } from "@tanstack/react-query";
 import { AxiosResponse, AxiosError } from "axios";
 import Axios from ".";
@@ -82,5 +83,31 @@ export const useSignUp = (
   return useMutation({
     mutationFn: signUp,
     ...options,
+  });
+};
+
+/**
+ * 내 정보 불러오기
+ */
+
+interface GetMeResponse {
+  id: number;
+  email: string;
+}
+
+const getMe = async () => {
+  const data = await Axios({
+    method: "get",
+    url: `/auth/me`,
+  });
+
+  return data.data;
+};
+
+export const useGetMe = () => {
+  return useQuery<GetMeResponse[]>({
+    queryKey: ["me"],
+    queryFn: getMe,
+    retry: 0,
   });
 };
