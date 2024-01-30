@@ -12,6 +12,17 @@ export const RULES = {
     },
   },
 
+  NICKNAME: {
+    required: {
+      value: true,
+      message: "필수값을 입력해 주세요.",
+    },
+    pattern: {
+      value: REGEX.NICKNAME,
+      message: "올바른 형태의 닉네임을 입력해 주세요.",
+    },
+  },
+
   PASSWORD: {
     required: {
       value: true,

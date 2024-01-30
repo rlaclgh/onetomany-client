@@ -4,31 +4,33 @@ import Divider from "@/components/common/divider";
 import HeaderCenter from "@/components/common/header-center";
 import TextButton from "@/components/common/text-button";
 import Header from "@/components/header";
-import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
+import useLoginRequired from "@/hooks/use-login-required";
+import { useGetMe } from "@/query/auth";
 import { useGetChatRoom, useSubscribeChatRoom } from "@/query/chat-room";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const ChatRoomPage = () => {
   const router = useRouter();
 
   const params = useParams();
 
-  const { redirect } = useRedirectToSignIn();
-
   const { data: chatRoom, isLoading } = useGetChatRoom({
     chatRoomId: params.chatRoomId,
   });
 
   const { mutate: subscribeChatRoom } = useSubscribeChatRoom({
+    onSuccess: (data) => {
+      toast.success("구독이 완료되었습니다.");
+      router.push(`/channel/${data.data.id}`);
+    },
     onError: (data) => {
-      const errorCode = data?.response?.data?.code;
-
-      if (errorCode === "UNAUTHORIZED") {
-        redirect();
-      }
+      toast.error(data?.response?.data?.message);
     },
   });
+
+  const { loginRequired } = useLoginRequired();
 
   if (isLoading) return <></>;
 
@@ -58,9 +60,11 @@ const ChatRoomPage = () => {
 
         <TextButton
           text="채팅방 구독"
-          onClick={() => {
-            subscribeChatRoom({ chatRoomId: chatRoom?.id });
-          }}
+          onClick={() =>
+            loginRequired(() => {
+              subscribeChatRoom({ chatRoomId: chatRoom?.id });
+            })
+          }
           disabled={false}
         />
       </div>

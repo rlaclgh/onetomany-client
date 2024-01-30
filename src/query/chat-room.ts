@@ -17,7 +17,9 @@ interface SubscribeChatRoomProps {
   chatRoomId: number;
 }
 
-interface SubscribeChatRoomResponse {}
+interface SubscribeChatRoomResponse {
+  id: number;
+}
 
 const subscribeChatRoom: MutationFunction<
   AxiosResponse<SubscribeChatRoomResponse>,

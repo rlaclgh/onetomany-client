@@ -8,6 +8,8 @@ import { useCreateChatRoom } from "@/query/chat-room";
 import { useRouter } from "next/navigation";
 import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
 import { useCreatePreSignedUrl } from "@/query/image";
+import { toast } from "react-toastify";
+import useLoginRequired from "@/hooks/use-login-required";
 
 interface FormProps {
   name: string;
@@ -19,6 +21,7 @@ interface FormProps {
 
 const CreateChatRoomForm = () => {
   const router = useRouter();
+  const { loginRequired } = useLoginRequired();
   const { redirect } = useRedirectToSignIn();
 
   const { mutate: createChatRoom } = useCreateChatRoom({
@@ -27,11 +30,7 @@ const CreateChatRoomForm = () => {
       router.replace("/");
     },
     onError: (data) => {
-      const errorCode = data?.response?.data?.code;
-
-      if (errorCode === "UNAUTHORIZED") {
-        redirect();
-      }
+      toast.error(data?.response?.data?.message);
     },
   });
   const { control, formState, getValues } = useForm<FormProps>({
@@ -76,13 +75,17 @@ const CreateChatRoomForm = () => {
 
       <TextButton
         text="채팅방 생성"
-        onClick={() => {
-          createChatRoom({
-            name: getValues("name"),
-            description: getValues("description"),
-            imageUrl: getValues("imageUrl"),
-          });
-        }}
+        onClick={() =>
+          loginRequired(() => {
+            createChatRoom({
+              name: getValues("name"),
+              description: getValues("description"),
+              imageUrl:
+                getValues("imageUrl") ||
+                "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+            });
+          })
+        }
         disabled={!formState.isValid}
       />
     </>

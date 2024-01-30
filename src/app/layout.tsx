@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import usePreviousPath from "@/hooks/use-previous-path";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +28,21 @@ export default function RootLayout({
 }) {
   usePreviousPath();
 
+  useEffect(() => {
+    // const evtSource = new EventSource(
+    //   `http://127.0.0.1:8080/channel/events?token=${localStorage.getItem(
+    //     "accessToken"
+    //   )}`
+    // );
+    // // const eventList = document.querySelector("ul");
+    // evtSource.onmessage = (e) => {
+    //   queryClient.refetchQueries({ queryKey: ["channel"], exact: true });
+    // };
+    // return () => {
+    //   evtSource.close();
+    // };
+  }, []);
+
   return (
     <html lang="en">
       <body>
@@ -38,10 +54,8 @@ export default function RootLayout({
             </div>
 
             {/* center */}
-            <div className="overflow-x-hidden relative max-w-[450px] shadow min-h-screen flex-1 lg:m-auto ">
+            <div className="overflow-x-hidden relative max-w-[450px] shadow min-h-screen flex-1 lg:m-auto max-h-screen">
               {children}
-
-              <BottomNavigation />
             </div>
 
             {/* right */}

@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
+  /* Chrome, Safari, Opera */
+  display: none;
 }

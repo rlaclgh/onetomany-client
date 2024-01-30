@@ -112,22 +112,11 @@ const ImageInput = (props: ImageInputProps) => {
                     color="white"
                     width={16}
                     height={16}
-                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-400"
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red"
                     onClick={() => {
                       onChange("");
                     }}
                   />
-
-                  {/* <Image
-                    src="/x-mark.svg"
-                    alt="삭제"
-                    width={16}
-                    height={16}
-                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600"
-                    onClick={() => {
-                      onChange("");
-                    }}
-                  /> */}
                 </div>
               )}
             </div>

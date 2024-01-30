@@ -5,7 +5,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { AxiosResponse, AxiosError } from "axios";
-import Axios from ".";
+import Axios, { CustomError } from ".";
 
 /**
  * 로그인
@@ -36,7 +36,7 @@ const signIn: MutationFunction<AxiosResponse<SignInResponse>, SignInProps> = (
 export const useSignIn = (
   options?: UseMutationOptions<
     AxiosResponse<SignInResponse>,
-    Error,
+    AxiosError<CustomError>,
     SignInProps
   >
 ) => {
@@ -52,6 +52,7 @@ export const useSignIn = (
 
 interface SignUpProps {
   email: string;
+  nickname: string;
   password: string;
   rePassword: string;
 }
@@ -61,12 +62,13 @@ interface SignUpResponse {}
 const signUp: MutationFunction<AxiosResponse<SignUpResponse>, SignUpProps> = (
   props
 ) => {
-  const { email, password, rePassword } = props;
+  const { email, nickname, password, rePassword } = props;
   return Axios({
     method: "post",
     url: "/auth/sign-up",
     data: {
       email,
+      nickname,
       password,
       rePassword,
     },
@@ -76,7 +78,7 @@ const signUp: MutationFunction<AxiosResponse<SignUpResponse>, SignUpProps> = (
 export const useSignUp = (
   options?: UseMutationOptions<
     AxiosResponse<SignUpResponse>,
-    Error,
+    AxiosError<CustomError>,
     SignUpProps
   >
 ) => {
@@ -105,7 +107,7 @@ const getMe = async () => {
 };
 
 export const useGetMe = () => {
-  return useQuery<GetMeResponse[]>({
+  return useQuery<GetMeResponse>({
     queryKey: ["me"],
     queryFn: getMe,
     retry: 0,

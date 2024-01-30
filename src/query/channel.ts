@@ -20,6 +20,7 @@ interface GetChannelsResponse {
     imageUrl: string;
     createdAt: string;
   };
+  unReadCount: number;
 }
 
 const getChannels = async () => {

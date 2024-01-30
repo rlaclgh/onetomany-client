@@ -4,19 +4,31 @@ import { useForm } from "react-hook-form";
 import TextareaInput from "./common/textarea-input";
 import { RULES } from "@/constants/rules";
 import TextButton from "./common/text-button";
+import { useCreateFeedback } from "@/query/feedback";
+import { toast } from "react-toastify";
 
 interface FormProps {
-  feedback: string;
+  description: string;
 }
 
 const ServiceDescription = () => {
-  const { control, formState } = useForm<FormProps>({
+  const { control, formState, getValues, setValue } = useForm<FormProps>({
     defaultValues: {
-      feedback: "",
+      description: "",
     },
 
     mode: "onChange",
     reValidateMode: "onChange",
+  });
+
+  const { mutate: createFeedback } = useCreateFeedback({
+    onSuccess: () => {
+      toast.success("피드백을 제출했습니다.");
+      setValue("description", "");
+    },
+    onError: () => {
+      toast.error("에러가 발생했습니다.");
+    },
   });
 
   return (
@@ -87,7 +99,7 @@ const ServiceDescription = () => {
 
         <TextareaInput
           label="피드백 내용"
-          name="feedback"
+          name="description"
           control={control}
           disabled={false}
           placeholder="피드백 내용을 입력해주세요."
@@ -98,7 +110,7 @@ const ServiceDescription = () => {
         <TextButton
           text="피드백 제출"
           onClick={() => {
-            alert("준비중인 기능입니다.");
+            createFeedback({ description: getValues("description") });
           }}
           disabled={!formState.isValid}
         />

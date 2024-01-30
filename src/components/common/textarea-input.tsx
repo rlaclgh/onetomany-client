@@ -44,7 +44,7 @@ const TextareaInput = (props: TextareaInputProps) => {
 
               <textarea
                 className={`w-full h-28 p-3 border-solid border rounded outline-none text-sm
-                ${hasError ? "border-red-600" : "border-gray-light"}
+                ${hasError ? "border-red" : "border-gray-light"}
                 resize-none
                 `}
                 id={name}
@@ -57,7 +57,7 @@ const TextareaInput = (props: TextareaInputProps) => {
               {hasError && (
                 <>
                   <div className="h-1" />
-                  <div className="text-right h-3 text-sm text-red-600">
+                  <div className="text-right h-3 text-sm text-red">
                     {errorMessage}
                   </div>
                 </>

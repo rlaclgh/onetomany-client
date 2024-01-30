@@ -1,3 +1,4 @@
+"use client";
 import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
 import { useGetMe } from "@/query/auth";
 

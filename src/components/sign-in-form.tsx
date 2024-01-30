@@ -6,6 +6,7 @@ import { RULES } from "@/constants/rules";
 import TextButton from "./common/text-button";
 import { useSignIn } from "@/query/auth";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface FormProps {
   email: string;
@@ -24,8 +25,8 @@ const SignInForm = () => {
         router.replace("/");
       }
     },
-    onError: () => {
-      alert("에러 발생!");
+    onError: (data) => {
+      toast.error(data?.response?.data?.message);
     },
   });
 

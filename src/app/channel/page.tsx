@@ -1,5 +1,7 @@
 "use client";
 
+import BottomNavigation from "@/components/bottom-navigation";
+import Channel from "@/components/channel";
 import ChatRoom from "@/components/chat-room";
 import HeaderCenter from "@/components/common/header-center";
 import Header from "@/components/header";
@@ -7,6 +9,7 @@ import LogInOutHeader from "@/components/log-in-out-header";
 import Preparing from "@/components/preparing";
 import { useGetChannels } from "@/query/channel";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const ChannelsPage = () => {
   const router = useRouter();
@@ -16,24 +19,22 @@ const ChannelsPage = () => {
 
   return (
     <>
-      <Header
-        renderCenter={() => <HeaderCenter>참여중인 채널</HeaderCenter>}
-        renderRight={() => <LogInOutHeader />}
-      />
+      <Header renderCenter={() => <HeaderCenter>참여중인 채널</HeaderCenter>} />
 
-      {channels.map((chatRoom) => {
+      {channels.map((channel) => {
         return (
-          <ChatRoom
-            key={chatRoom?.chatRoom?.id}
-            chatRoomId={chatRoom?.chatRoom?.id}
-            name={chatRoom?.chatRoom?.name}
-            description={chatRoom?.chatRoom?.description}
-            imageUrl={chatRoom?.chatRoom?.imageUrl}
+          <Channel
+            key={channel?.id}
+            channelId={channel?.id}
+            name={channel?.chatRoom?.name}
+            imageUrl={channel?.chatRoom?.imageUrl}
+            lastChat={channel?.lastChat}
+            unReadCount={channel?.unReadCount}
           />
         );
       })}
 
-      <Preparing />
+      <BottomNavigation />
     </>
   );
 };

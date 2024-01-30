@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 interface FormProps {
   email: string;
+  nickname: string;
   password: string;
   rePassword: string;
 }
@@ -18,17 +19,17 @@ const SignUpForm = () => {
   const router = useRouter();
   const { mutate: signUp } = useSignUp({
     onSuccess: () => {
-      toast("Wow so easy!");
-
+      toast.success("가입이 완료되었습니다.");
       router.replace("/sign-in");
     },
-    onError: () => {
-      alert("에러 발생!");
+    onError: (data) => {
+      toast.error(data?.response?.data?.message);
     },
   });
   const { control, getValues, formState } = useForm<FormProps>({
     defaultValues: {
       email: "",
+      nickname: "",
       password: "",
       rePassword: "",
     },
@@ -39,15 +40,6 @@ const SignUpForm = () => {
 
   return (
     <div>
-      <div
-        onClick={() => {
-          toast.success("Wow so easy!", {
-            autoClose: 1000,
-          });
-        }}
-      >
-        Toast
-      </div>
       <TextInput
         label="이메일"
         name="email"
@@ -55,6 +47,14 @@ const SignUpForm = () => {
         control={control}
         disabled={false}
         rules={RULES.EMAIL}
+      />
+      <TextInput
+        label="닉네임"
+        name="nickname"
+        type="text"
+        control={control}
+        disabled={false}
+        rules={RULES.NICKNAME}
       />
 
       <TextInput
@@ -88,6 +88,7 @@ const SignUpForm = () => {
         onClick={() => {
           signUp({
             email: getValues("email"),
+            nickname: getValues("nickname"),
             password: getValues("password"),
             rePassword: getValues("rePassword"),
           });

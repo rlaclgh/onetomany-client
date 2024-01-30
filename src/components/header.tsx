@@ -1,17 +1,20 @@
 import React from "react";
-import LogInOutHeader from "./log-in-out-header";
+import Back from "./back";
 
 interface HeaderProps {
+  renderLeft?: () => React.ReactNode;
   renderCenter: () => React.ReactNode;
   renderRight?: () => React.ReactNode;
 }
 const Header = (props: HeaderProps) => {
-  const { renderCenter, renderRight } = props;
+  const { renderLeft, renderCenter, renderRight } = props;
 
   return (
     <div className="border-solid border-black h-12 flex justify-center align-middle shadow items-center">
       {/* left */}
-      <div className="w-20 flex justify-start pl-2"></div>
+      <div className="w-20 flex justify-start pl-2">
+        {!renderLeft && <Back />}
+      </div>
 
       {/* center */}
       <div className="flex-1 justify-center items-center flex">
@@ -20,8 +23,6 @@ const Header = (props: HeaderProps) => {
 
       {/* right */}
       <div className="w-20 flex justify-end pr-2">
-        {!renderRight && <LogInOutHeader />}
-
         {renderRight && renderRight()}
       </div>
     </div>
