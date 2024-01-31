@@ -16,24 +16,23 @@ export default function Home() {
 
   const { loginRequired } = useLoginRequired();
 
-  // if (isLoading) return <></>;
-
   return (
     <>
       <Header renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>} />
 
       <div className="flex flex-wrap">
-        {chatRooms.map((chatRoom) => {
-          return (
-            <ChatRoom
-              key={chatRoom?.chatRoom?.id}
-              chatRoomId={chatRoom?.chatRoom?.id}
-              name={chatRoom?.chatRoom?.name}
-              description={chatRoom?.chatRoom?.description}
-              imageUrl={chatRoom?.chatRoom?.imageUrl}
-            />
-          );
-        })}
+        {chatRooms &&
+          chatRooms.map((chatRoom) => {
+            return (
+              <ChatRoom
+                key={chatRoom?.chatRoom?.id}
+                chatRoomId={chatRoom?.chatRoom?.id}
+                name={chatRoom?.chatRoom?.name}
+                description={chatRoom?.chatRoom?.description}
+                imageUrl={chatRoom?.chatRoom?.imageUrl}
+              />
+            );
+          })}
       </div>
       <BottomNavigation />
 
