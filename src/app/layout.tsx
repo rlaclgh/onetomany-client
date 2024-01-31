@@ -1,23 +1,16 @@
 "use client";
-import BottomNavigation from "@/components/bottom-navigation";
 import "./globals.css";
+
 import ServiceDescription from "@/components/service-description";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import usePreviousPath from "@/hooks/use-previous-path";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    mutations: {
-      onError: (error, variables, context) => {
-        // 공통 에러 처리 로직
-
-        alert(`An error occurred during a mutation:${error}`);
-        console.error("An error occurred during a mutation:", error);
-      },
-    },
+    mutations: {},
   },
 });
 

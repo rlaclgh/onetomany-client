@@ -22,11 +22,10 @@ interface FormProps {
 const CreateChatRoomForm = () => {
   const router = useRouter();
   const { loginRequired } = useLoginRequired();
-  const { redirect } = useRedirectToSignIn();
 
   const { mutate: createChatRoom } = useCreateChatRoom({
     onSuccess: () => {
-      alert("채팅방을 생성했습니다.");
+      toast.success("채팅방을 생성했습니다.");
       router.replace("/");
     },
     onError: (data) => {

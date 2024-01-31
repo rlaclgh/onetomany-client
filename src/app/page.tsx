@@ -18,7 +18,21 @@ export default function Home() {
 
   return (
     <>
-      <Header renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>} />
+      <Header
+        renderCenter={() => <HeaderCenter>채팅방 찾기</HeaderCenter>}
+        renderRight={() => (
+          <button
+            className="bg-blue h-8 pr-2 pl-2 rounded-xl"
+            onClick={() => {
+              loginRequired(() => {
+                router.push("/chat-room/new");
+              });
+            }}
+          >
+            <span className="text-white text-base">생성</span>
+          </button>
+        )}
+      />
 
       <div className="flex flex-wrap">
         {chatRooms &&
