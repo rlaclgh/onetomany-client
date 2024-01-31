@@ -120,6 +120,7 @@ const ImageInput = (props: ImageInputProps) => {
                 </div>
               )}
             </div>
+            <div className="h-4" />
           </>
         );
       }}

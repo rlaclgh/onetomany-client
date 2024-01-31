@@ -53,6 +53,7 @@ interface CreateChatRoomProps {
   name: string;
   description: string;
   imageUrl: string;
+  tagIds: number[];
 }
 
 interface CreateChatRoomResponse {}
@@ -61,7 +62,7 @@ const createChatRoom: MutationFunction<
   AxiosResponse<CreateChatRoomResponse>,
   CreateChatRoomProps
 > = (props) => {
-  const { name, description, imageUrl } = props;
+  const { name, description, imageUrl, tagIds } = props;
   return Axios({
     method: "post",
     url: "/chat_room",
@@ -69,6 +70,7 @@ const createChatRoom: MutationFunction<
       name,
       description,
       imageUrl,
+      tagIds,
     },
   });
 };

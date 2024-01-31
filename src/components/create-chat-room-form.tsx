@@ -10,6 +10,8 @@ import useRedirectToSignIn from "@/hooks/use-redirect-to-sign-in";
 import { useCreatePreSignedUrl } from "@/query/image";
 import { toast } from "react-toastify";
 import useLoginRequired from "@/hooks/use-login-required";
+import { useEffect, useRef, useState } from "react";
+import TagsInput from "./common/tags-input";
 
 interface FormProps {
   name: string;
@@ -17,6 +19,13 @@ interface FormProps {
   description: string;
 
   imageUrl: string;
+
+  tags: Tag[];
+}
+
+interface Tag {
+  id: number;
+  name: string;
 }
 
 const CreateChatRoomForm = () => {
@@ -37,11 +46,13 @@ const CreateChatRoomForm = () => {
       name: "",
       description: "",
       imageUrl: "",
+      tags: [],
     },
 
     mode: "onChange",
     reValidateMode: "onChange",
   });
+
   return (
     <>
       <TextInput
@@ -70,6 +81,12 @@ const CreateChatRoomForm = () => {
         disabled={false}
       />
 
+      <TagsInput
+        label="태그 (입력후 엔터를 눌러주세요)"
+        name="tags"
+        control={control}
+      />
+
       <div className="h-10" />
 
       <TextButton
@@ -82,6 +99,10 @@ const CreateChatRoomForm = () => {
               imageUrl:
                 getValues("imageUrl") ||
                 "https://i.pinimg.com/564x/6a/95/83/6a958390de7924f68e1dfbd57d8c41d6.jpg",
+
+              tagIds: Array.from(
+                new Set(getValues("tags").map((tag) => tag.id))
+              ),
             });
           })
         }
