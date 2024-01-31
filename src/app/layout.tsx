@@ -47,14 +47,14 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryClientProvider client={queryClient}>
-          <div className="w-[100%] h-[100%] m-0 flex justify-center align-middle">
+          <div className="w-[100%] h-[100%] m-0 flex justify-center align-middle fixed">
             {/* left */}
             <div className="hidden lg:block lg:min-h-screen lg:w-[calc(80%-450px)] ">
               <ServiceDescription />
             </div>
 
             {/* center */}
-            <div className="overflow-x-hidden relative max-w-[450px] shadow min-h-screen flex-1 lg:m-auto max-h-screen">
+            <div className="overflow-x-hidden relative max-w-[450px] shadow min-h-[100%] max-h-screen flex-1 lg:m-auto">
               {children}
             </div>
 

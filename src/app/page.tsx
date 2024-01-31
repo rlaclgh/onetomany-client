@@ -16,7 +16,7 @@ export default function Home() {
 
   const { loginRequired } = useLoginRequired();
 
-  if (isLoading) return <></>;
+  // if (isLoading) return <></>;
 
   return (
     <>
