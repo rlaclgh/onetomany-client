@@ -109,10 +109,6 @@ const Chats = (props: ChatProps) => {
         );
       })}
 
-      {/* {messages.map((chat) => {
-        return <ChatBubble id={chat.id} key={chat.id} message={chat} />;
-      })} */}
-
       <div ref={bottomRef} className="" />
     </div>
   );

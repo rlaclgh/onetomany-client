@@ -77,7 +77,7 @@ const ChannelPage = () => {
       <Header renderCenter={() => <HeaderCenter>채팅방</HeaderCenter>} />
       <Chats messages={messages} bottomRef={bottomRef} />
 
-      <div
+      {/* <div
         className="absolute bottom-20 left-0 right-0 flex"
         onClick={() => {
           scrollToBottom();
@@ -86,7 +86,7 @@ const ChannelPage = () => {
         <div className="m-auto rounded-full w-8 h-8 text-center self-center flex justify-center items-center shadow">
           <ArrowDown width={20} height={20} />
         </div>
-      </div>
+      </div> */}
       <ChatInputForm client={client} bottomRef={bottomRef} />
     </>
   );
