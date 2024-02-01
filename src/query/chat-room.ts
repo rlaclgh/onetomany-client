@@ -131,6 +131,7 @@ interface ChatRoomResponse {
   name: string;
   imageUrl: string;
   description: string;
+  tags: TagResponse[];
 }
 
 const getChatRoom = async (props: any) => {

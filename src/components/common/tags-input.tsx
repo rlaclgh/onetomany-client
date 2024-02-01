@@ -47,7 +47,10 @@ const TagsInput = (props: TagsInputProps) => {
               <div className="flex flex-wrap gap-2">
                 {field.value.map((tag) => {
                   return (
-                    <div className="bg-blue p-1 rounded-xl flex justify-center items-center">
+                    <div
+                      className="bg-blue p-1 rounded-xl flex justify-center items-center"
+                      key={tag.id}
+                    >
                       <div className="text-sm text-white">{tag.name}</div>
                     </div>
                   );

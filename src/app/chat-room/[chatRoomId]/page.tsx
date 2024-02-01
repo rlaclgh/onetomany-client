@@ -56,6 +56,21 @@ const ChatRoomPage = () => {
         <div className="text-sm py-2">{chatRoom?.description}</div>
         <Divider />
 
+        <div className="h-4" />
+
+        <div className="flex flex-wrap gap-2">
+          {chatRoom.tags.map((tag) => {
+            return (
+              <div
+                className="bg-blue p-1 rounded-xl flex justify-center items-center"
+                key={tag.id}
+              >
+                <div className="text-sm text-white">{tag.name}</div>
+              </div>
+            );
+          })}
+        </div>
+
         <div className="h-10" />
 
         <TextButton
