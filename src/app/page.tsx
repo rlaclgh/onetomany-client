@@ -2,6 +2,7 @@
 
 import BottomNavigation from "@/components/bottom-navigation";
 import ChatRoom from "@/components/chat-room";
+import ChatRooms from "@/components/chat-rooms";
 import HeaderCenter from "@/components/common/header-center";
 import Header from "@/components/header";
 import useLoginRequired from "@/hooks/use-login-required";
@@ -10,7 +11,6 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const { data: chatRooms, isLoading } = useGetChatRooms();
 
   const { loginRequired } = useLoginRequired();
 
@@ -31,27 +31,13 @@ export default function Home() {
           </button>
         )}
       />
-
-      <div className="flex flex-wrap">
-        {chatRooms &&
-          chatRooms.map((chatRoom) => {
-            return (
-              <ChatRoom
-                key={chatRoom?.id}
-                chatRoomId={chatRoom?.id}
-                name={chatRoom?.name}
-                description={chatRoom?.description}
-                imageUrl={chatRoom?.imageUrl}
-                tags={chatRoom?.tags}
-              />
-            );
-          })}
+      <div
+        className="overflow-y-scroll flex-1 pl-2 pr-2"
+        style={{ height: "calc(calc(var(--vh, 1vh) * 100) - 112px)" }}
+      >
+        <ChatRooms />
       </div>
       <BottomNavigation />
-
-      {/* {MOCK.map((mock) => {
-        return <ChatRoom key={mock.chatRoomId} {...mock} />;
-      })} */}
     </>
   );
 }

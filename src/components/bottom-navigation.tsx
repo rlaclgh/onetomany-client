@@ -27,6 +27,7 @@ const BottomNavigation = () => {
   if (NO_BOTTOM_PATH.has(pathname)) return <></>;
 
   return (
+    // <div className="flex border-t border-solid border-gray-light h-16">
     <div className="h-16 absolute bottom-0 left-0 right-0 flex border-t border-solid border-gray-light">
       <Link
         href="/"
