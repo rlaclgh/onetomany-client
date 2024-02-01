@@ -94,13 +94,16 @@ export const useCreateChatRoom = (
 
 interface GetChatRoomResponse {
   id: number;
-  isHost: boolean;
-  chatRoom: {
-    id: number;
-    name: string;
-    imageUrl: string;
-    description: string;
-  };
+  name: string;
+  imageUrl: string;
+  description: string;
+
+  tags: TagResponse[];
+}
+
+interface TagResponse {
+  id: number;
+  name: string;
 }
 
 const getChatRooms = async () => {
@@ -114,7 +117,7 @@ const getChatRooms = async () => {
 
 export const useGetChatRooms = () => {
   return useQuery<GetChatRoomResponse[]>({
-    queryKey: ["das"],
+    queryKey: ["chat_room"],
     queryFn: getChatRooms,
   });
 };
@@ -140,9 +143,9 @@ const getChatRoom = async (props: any) => {
   return data.data;
 };
 
-export const useGetChatRoom = (props: any) => {
+export const useGetChatRoom = (props) => {
   return useQuery<ChatRoomResponse>({
-    queryKey: ["chat_room"],
+    queryKey: ["chat_room", props],
     queryFn: () => getChatRoom(props),
   });
 };

@@ -7,9 +7,15 @@ interface ChatRoomProps {
   name: string;
   description: string;
   imageUrl: string;
+  tags: TagProps[];
+}
+
+interface TagProps {
+  id: number;
+  name: string;
 }
 const ChatRoom = (props: ChatRoomProps) => {
-  const { chatRoomId, name, description, imageUrl } = props;
+  const { chatRoomId, name, description, imageUrl, tags = [] } = props;
 
   const router = useRouter();
   return (
@@ -28,8 +34,21 @@ const ChatRoom = (props: ChatRoomProps) => {
           // priority={true}
           style={{ objectFit: "cover", padding: 8, borderRadius: 24 }}
         />
-        <div className="absolute bottom-6 z-10  flex left-0 right-0">
+        <div className="absolute bottom-2 z-10  flex left-0 right-0 flex-col">
           <div className="text-sm m-auto text-white">{name}</div>
+
+          <div className="flex pl-3 pr-3 flex-wrap gap-1 h-10 overflow-hidden">
+            {tags.map((tag) => {
+              return (
+                <div
+                  key={tag.id}
+                  className="text-white text-xs border border-white rounded pl-1 pr-1 h-4 inline-block"
+                >
+                  {tag.name}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </>

@@ -3,9 +3,7 @@
 import BottomNavigation from "@/components/bottom-navigation";
 import ChatRoom from "@/components/chat-room";
 import HeaderCenter from "@/components/common/header-center";
-import TextButton from "@/components/common/text-button";
 import Header from "@/components/header";
-import LogInOutHeader from "@/components/log-in-out-header";
 import useLoginRequired from "@/hooks/use-login-required";
 import { useGetChatRooms } from "@/query/chat-room";
 import { useRouter } from "next/navigation";
@@ -39,11 +37,12 @@ export default function Home() {
           chatRooms.map((chatRoom) => {
             return (
               <ChatRoom
-                key={chatRoom?.chatRoom?.id}
-                chatRoomId={chatRoom?.chatRoom?.id}
-                name={chatRoom?.chatRoom?.name}
-                description={chatRoom?.chatRoom?.description}
-                imageUrl={chatRoom?.chatRoom?.imageUrl}
+                key={chatRoom?.id}
+                chatRoomId={chatRoom?.id}
+                name={chatRoom?.name}
+                description={chatRoom?.description}
+                imageUrl={chatRoom?.imageUrl}
+                tags={chatRoom?.tags}
               />
             );
           })}
